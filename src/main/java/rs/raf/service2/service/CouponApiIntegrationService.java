@@ -11,4 +11,6 @@ public interface CouponApiIntegrationService {
     List<CouponDto> findAllCoupons();
 
     List<CouponDto> updateAllCoupons();
+
+    List<String> getAllLists();
 }

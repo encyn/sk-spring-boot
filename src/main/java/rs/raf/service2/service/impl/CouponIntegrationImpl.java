@@ -69,5 +69,10 @@ public class CouponIntegrationImpl implements CouponApiIntegrationService {
             allCouponDtos.addAll(updateCoupons(country));
         return allCouponDtos;
     }
+
+    @Override
+    public List<String> getAllLists() {
+        return Arrays.asList(countries);
+    }
 }
 

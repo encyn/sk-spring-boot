@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping(value = "/coupon")
 @RequiredArgsConstructor
 @EnableScheduling
+@CrossOrigin(origins = "http://localhost:8080")
 public class CouponCtrl {
 
     @Autowired
@@ -30,9 +31,14 @@ public class CouponCtrl {
     }
 
     @GetMapping("/updateAll")
-    //@Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 30000)
     public List<CouponDto> updateAll(){
         return couponApiIntegrationService.updateAllCoupons();
+    }
+
+    @GetMapping("/findLists")
+    public List<String> findLists(){
+        return couponApiIntegrationService.getAllLists();
     }
 
 }
