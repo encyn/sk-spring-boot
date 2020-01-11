@@ -16,13 +16,13 @@ public class UserResDto {
 
     private String email;
 
-    private List<String> subscriptions;
+    //private List<String> subscriptions;
 
     public UserResDto(User user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
-        this.subscriptions = user.getSubscriptions().stream().map(Subscription::getList).collect(Collectors.toList());
+        //this.subscriptions = user.getSubscriptions().stream().map(Subscription::getList).collect(Collectors.toList());
     }
 
 }

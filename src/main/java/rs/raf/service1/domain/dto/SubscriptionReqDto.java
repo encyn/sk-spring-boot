@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SubscriptionReqDto {
 
-    private Long userId;
+    private String email;
 
     private String list;
 

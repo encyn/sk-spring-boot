@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping(value = "/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:8080")
 public class AuthCtrl {
 
     private final AuthService authService;

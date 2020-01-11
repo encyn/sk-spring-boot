@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/user")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:8080")
 public class UserCtrl {
 
     private final UserService userService;
