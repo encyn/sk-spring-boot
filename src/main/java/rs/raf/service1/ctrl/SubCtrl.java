@@ -28,12 +28,12 @@ public class SubCtrl {
     }
 
     @PostMapping("/delete")
-    public SubscriptionResDto delete(@RequestBody String email, String list) throws ParseException {
-        return subscriptionService.removeSubscription(email, list);
+    public SubscriptionResDto delete(@RequestBody String json) throws ParseException {
+        return subscriptionService.removeSubscription(json);
     }
 
     @PostMapping("/findForEmail")
-    public List<SubscriptionResDto> findForEmail(@RequestBody String email) throws ParseException {
+    public List<String> findForEmail(@RequestBody String email) throws ParseException {
         return subscriptionService.getSubscriptionsForEmail(email);
     }
 }

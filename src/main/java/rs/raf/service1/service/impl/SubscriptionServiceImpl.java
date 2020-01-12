@@ -12,7 +12,6 @@ import rs.raf.service1.domain.Subscription;
 import rs.raf.service1.domain.User;
 import rs.raf.service1.domain.dto.SubscriptionReqDto;
 import rs.raf.service1.domain.dto.SubscriptionResDto;
-import rs.raf.service1.domain.dto.UserResDto;
 import rs.raf.service1.service.SubscriptionService;
 
 import java.util.ArrayList;
@@ -42,32 +41,29 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public SubscriptionResDto removeSubscription(String userEmail, String list) throws ParseException {
-//        JSONParser parser = new JSONParser();
-//        JSONObject jobj = (JSONObject) parser.parse(userEmail);
-//        String email = (String) jobj.get("userEmail");
-//        String sublist = (String) jobj.get("list");
-//        User user = userDao.findByEmail(email).get();
-        User user = userDao.findByEmail(userEmail).get();
+    public SubscriptionResDto removeSubscription(String json) throws ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject jobj = (JSONObject) parser.parse(json);
+        String email = (String) jobj.get("email");
+        String list = (String) jobj.get("list");
+        User user = userDao.findByEmail(email).get();
+//        User user = userDao.findByEmail(userEmail).get();
         Subscription subscription = subscriptionDao.findByUserAndList(user, list);
-        if(subscription==null) System.out.println("sub");
         subscriptionDao.deleteById(subscription.getId());
         return new SubscriptionResDto(subscription);
     }
 
     @Override
-    public List<SubscriptionResDto> getSubscriptionsForEmail(String userEmail) throws ParseException {
-//        JSONParser parser = new JSONParser();
-//        JSONObject jobj = (JSONObject) parser.parse(userEmail);
-//        String email = (String) jobj.get("userEmail");
-//        User user = userDao.findByEmail(email).get();
-        System.out.println(userEmail);
+    public List<String> getSubscriptionsForEmail(String email) throws ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject jobj = (JSONObject) parser.parse(email);
+        String userEmail = (String) jobj.get("email");
         User user = userDao.findByEmail(userEmail).get();
         List<Subscription> subscriptions = subscriptionDao.findByUser(user);
-        ArrayList<SubscriptionResDto> subscriptionResDtos = new ArrayList<>();
+        ArrayList<String> subs = new ArrayList<>();
         for(Subscription sub : subscriptions)
-            subscriptionResDtos.add(new SubscriptionResDto(sub));
-        return subscriptionResDtos;
+            subs.add(sub.getList());
+        return subs;
     }
 
 }

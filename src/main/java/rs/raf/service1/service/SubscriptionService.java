@@ -13,7 +13,7 @@ public interface SubscriptionService {
 
     SubscriptionResDto addSubscription(SubscriptionReqDto subscriptionDto);
 
-    SubscriptionResDto removeSubscription(String email, String list) throws ParseException;
+    SubscriptionResDto removeSubscription(String json) throws ParseException;
 
-    List<SubscriptionResDto> getSubscriptionsForEmail(String userEmail) throws ParseException;
+    List<String> getSubscriptionsForEmail(String userEmail) throws ParseException;
 }
