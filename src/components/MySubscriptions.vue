@@ -2,21 +2,12 @@
     <Navbar>
         <div class="mx-auto" style="width: 80%">
             <h2>My subscriptions</h2>
-            <table class="table table-striped table-hover table-bordered text-center ">
-                <thead>
-                </thead>
-                <tbody>
-                <tr v-for="i in items" v-bind:key="i">
-                    <td>
-                        <label class="form-checkbox">
-                            <input type="checkbox" :value="{name:i}" v-model="selected">
-                            <i class="form-icon"></i>
-                        </label>
-                    </td>
-                    <td>{{i}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <ul>
+                <li v-for="i in items" v-bind:key="i">
+                    <input type="radio" :value=i v-model="selected">
+                    {{i}}
+                </li>
+            </ul>
             <button class="btn btn-primary" @click="unsubscribe">Unsubscribe</button>
         </div>
     </Navbar>
@@ -32,45 +23,33 @@
         },
         data: () => ({
             items: [],
-            selected: null,
-            selectAll: false,
-            request: null
+            selected: null
         }),
         methods: {
             unsubscribe: function(){
-                if (!this.selectAll) {
-                    axios.post('http://localhost:9000/service1/sub/delete', {email:this.$store.state.user.email, list:this.selected}).then((response) => {
-                        // eslint-disable-next-line no-console
-                        this.asd = response;
-                        this.$notify({
-                            group: 'Notifications',
-                            type: 'vue-notification success',
-                            position: 'top left',
-                            title: 'Success',
-                            text: 'You unsubscribed successfuly.'
-                        });
-                        this.$router.push('/');
-                    }).catch((error) => {
-                        this.$notify({
-                            group: 'Notifications',
-                            type: 'vue-notification error',
-                            title: 'Unsub exception',
-                            text: error
-                        });
+                axios.post('http://localhost:9000/service1/sub/delete', {email:this.$store.state.user.email, list:this.selected}).then((response) => {
+                    // eslint-disable-next-line no-console
+                    this.asd = response;
+                    this.$notify({
+                        group: 'Notifications',
+                        type: 'vue-notification success',
+                        position: 'top left',
+                        title: 'Success',
+                        text: 'You unsubscribed successfuly.'
                     });
-                }
-            },
-            select:function() {
-                this.selected = null;
-                if (!this.selectAll) {
-                    for (let i in this.items) {
-                        this.selected = this.items[i];
-                    }
-                }
+                    this.$router.push('/');
+                }).catch((error) => {
+                    this.$notify({
+                        group: 'Notifications',
+                        type: 'vue-notification error',
+                        title: 'Unsub exception',
+                        text: error
+                    });
+                });
             },
             init: function(){
-                axios.post('http://localhost:9000/service1/sub/findForEmail', this.$store.state.user.email).then((response) => {
-                    this.items = response.data.list;
+                axios.post('http://localhost:9000/service1/sub/findForEmail', {email: this.$store.state.user.email}).then((response) => {
+                    this.items = response.data;
                 }).catch((error) => {
                     this.$notify({
                         group: 'Notifications',
@@ -80,6 +59,9 @@
                     });
                 });
             }
+        },
+        beforeMount(){
+            this.init()
         }
     }
 </script>
